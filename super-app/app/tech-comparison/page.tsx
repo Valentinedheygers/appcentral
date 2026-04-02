@@ -146,10 +146,10 @@ const COMPARISON_DATA: ComparisonRow[] = [
 function LogoImg({ domain }: { domain: string }) {
   return (
     <img
-      src={`https://www.google.com/s2/favicons?domain=${domain}&sz=32`}
+      src={`https://www.google.com/s2/favicons?domain=${domain}&sz=64`}
       alt=""
-      width={16}
-      height={16}
+      width={24}
+      height={24}
       className="rounded-sm shrink-0"
       style={{ imageRendering: "auto" }}
     />
