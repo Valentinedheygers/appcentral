@@ -52,7 +52,7 @@ export function Sidebar() {
           <Menu className="w-4 h-4 text-foreground" />
         )}
         <span className="text-xs font-semibold text-primary hidden sm:inline">
-          Charles Tools
+          Puit
         </span>
       </button>
 
@@ -66,7 +66,7 @@ export function Sidebar() {
             </div>
             <div>
               <div className="font-semibold text-sm text-foreground">
-                Charles Tools
+                Puit
               </div>
               <div className="text-[10px] text-muted-foreground">
                 HCLSoftware
