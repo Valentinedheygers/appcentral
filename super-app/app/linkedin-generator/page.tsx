@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { Copy, Check, Loader2, Sparkles } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Copy, Check, Loader2, Sparkles, Key, Eye, EyeOff } from "lucide-react";
 
 const FORMATS = [
   { id: "story", label: "Story", emoji: "\uD83D\uDCD6" },
@@ -25,6 +25,8 @@ const ENGAGEMENT_HACKS = [
 ];
 
 export default function LinkedInGenerator() {
+  const [apiKey, setApiKey] = useState("");
+  const [showKey, setShowKey] = useState(false);
   const [input, setInput] = useState("");
   const [format, setFormat] = useState<Format>("story");
   const [output, setOutput] = useState("");
@@ -32,6 +34,17 @@ export default function LinkedInGenerator() {
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("anthropic_api_key");
+    if (saved) setApiKey(saved);
+  }, []);
+
+  function saveApiKey(key: string) {
+    setApiKey(key);
+    if (key) localStorage.setItem("anthropic_api_key", key);
+    else localStorage.removeItem("anthropic_api_key");
+  }
 
   async function generate() {
     if (!input.trim() || loading) return;
@@ -46,7 +59,7 @@ export default function LinkedInGenerator() {
       const res = await fetch("/api/generate-post", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ input, format }),
+        body: JSON.stringify({ input, format, apiKey }),
         signal: abortRef.current.signal,
       });
 
@@ -126,6 +139,41 @@ export default function LinkedInGenerator() {
         </h1>
         <p className="text-muted-foreground mt-1">
           Transform any idea into a viral LinkedIn post powered by Claude AI.
+        </p>
+      </div>
+
+      {/* API Key */}
+      <div className="mb-6 rounded-lg border border-border bg-card p-4">
+        <div className="flex items-center gap-2 mb-2">
+          <Key className="w-4 h-4 text-primary" />
+          <label className="text-sm font-medium text-card-foreground">
+            Anthropic API Key
+          </label>
+          {apiKey && (
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-500/15 text-green-400 border border-green-500/30">
+              Saved
+            </span>
+          )}
+        </div>
+        <div className="flex gap-2">
+          <div className="relative flex-1">
+            <input
+              type={showKey ? "text" : "password"}
+              value={apiKey}
+              onChange={(e) => saveApiKey(e.target.value)}
+              placeholder="sk-ant-..."
+              className="w-full rounded-lg border border-border bg-muted text-card-foreground placeholder:text-muted-foreground px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-colors"
+            />
+            <button
+              onClick={() => setShowKey(!showKey)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-card-foreground transition-colors"
+            >
+              {showKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            </button>
+          </div>
+        </div>
+        <p className="text-[11px] text-muted-foreground mt-2">
+          Your key is stored locally in your browser. Never shared or sent to our servers.
         </p>
       </div>
 

@@ -17,20 +17,22 @@ Always write in the same language as the input.
 Return ONLY the post text, ready to copy-paste.`;
 
 export async function POST(request: Request) {
-  const { input, format } = await request.json();
+  const { input, format, apiKey } = await request.json();
 
   if (!input || !format) {
     return new Response("Missing input or format", { status: 400 });
   }
 
-  if (!process.env.ANTHROPIC_API_KEY) {
+  const key = apiKey || process.env.ANTHROPIC_API_KEY;
+
+  if (!key) {
     return new Response(
-      "ANTHROPIC_API_KEY is not set. Add it to your .env.local file or Vercel environment variables.",
-      { status: 500 }
+      "No API key found. Enter your Anthropic API key in the settings above.",
+      { status: 401 }
     );
   }
 
-  const client = new Anthropic();
+  const client = new Anthropic({ apiKey: key });
 
   const stream = await client.messages.stream({
     model: "claude-sonnet-4-6",
