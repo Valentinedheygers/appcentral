@@ -194,9 +194,6 @@ function SolutionBadge({ s, side }: { s: Solution; side: "us" | "india" }) {
 /*  PAGE                                                              */
 /* ------------------------------------------------------------------ */
 export default function TechComparisonPage() {
-  const usTotal = COMPARISON_DATA.reduce((n, r) => n + r.us.length, 0);
-  const indiaTotal = COMPARISON_DATA.reduce((n, r) => n + r.india.length, 0);
-
   return (
     <div
       className="min-h-screen p-6"
@@ -207,26 +204,11 @@ export default function TechComparisonPage() {
     >
       {/* Header */}
       <div className="text-center mb-10">
-        <h1 className="text-3xl font-black tracking-tight mb-1">
+        <h1 className="text-3xl font-black tracking-tight">
           <span className="bg-gradient-to-r from-blue-400 via-white to-orange-400 bg-clip-text text-transparent">
-            US vs India &mdash; AI &amp; Technology Stack
+            US vs India
           </span>
         </h1>
-        <p className="text-sm" style={{ color: "#94a3b8" }}>
-          Comparative Analysis &mdash; HCLSoftware
-        </p>
-
-        {/* Counters */}
-        <div className="flex justify-center gap-6 mt-4">
-          <div className="flex items-center gap-2 px-4 py-2 rounded-lg" style={{ background: "rgba(59,130,246,0.1)", border: "1px solid rgba(59,130,246,0.25)" }}>
-            <span className="text-lg font-black text-blue-400">{usTotal}</span>
-            <span className="text-xs font-semibold text-blue-300">US Solutions</span>
-          </div>
-          <div className="flex items-center gap-2 px-4 py-2 rounded-lg" style={{ background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.25)" }}>
-            <span className="text-lg font-black text-green-400">{indiaTotal}</span>
-            <span className="text-xs font-semibold text-green-300">India Solutions</span>
-          </div>
-        </div>
       </div>
 
       {/* Comparison Grid */}

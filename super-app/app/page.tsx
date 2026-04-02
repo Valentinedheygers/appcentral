@@ -44,7 +44,7 @@ export default function Dashboard() {
             Super App
           </span>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight">Puit</h1>
+        <h1 className="text-3xl font-bold tracking-tight">puit</h1>
         <p className="text-muted-foreground mt-1">
           All your internal tools in one place. Pick one to get started.
         </p>

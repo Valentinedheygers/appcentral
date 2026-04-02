@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Puit — Super App",
+  title: "puit — Super App",
   description: "Hub for all internal tools — HCLSoftware",
 };
 

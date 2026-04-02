@@ -52,7 +52,7 @@ export function Sidebar() {
           <Menu className="w-4 h-4 text-foreground" />
         )}
         <span className="text-xs font-semibold text-primary hidden sm:inline">
-          Puit
+          puit
         </span>
       </button>
 
@@ -62,14 +62,11 @@ export function Sidebar() {
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3 border-b border-border">
             <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-primary text-primary-foreground font-bold text-xs">
-              C
+              p
             </div>
             <div>
               <div className="font-semibold text-sm text-foreground">
-                Puit
-              </div>
-              <div className="text-[10px] text-muted-foreground">
-                HCLSoftware
+                puit
               </div>
             </div>
           </div>

@@ -443,7 +443,7 @@ export default function TrainMap() {
             }}
           >
             <span style={{ fontSize: "14px" }}>{navOpen ? "✕" : "☰"}</span>
-            <span>Puit</span>
+            <span>puit</span>
           </button>
 
           {navOpen && (
@@ -456,8 +456,7 @@ export default function TrainMap() {
               }}
             >
               <div className="px-4 py-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-                <div style={{ fontSize: "13px", fontWeight: 700, color: "#fff" }}>Puit</div>
-                <div style={{ fontSize: "10px", color: "#64748b" }}>HCLSoftware</div>
+                <div style={{ fontSize: "13px", fontWeight: 700, color: "#fff" }}>puit</div>
               </div>
               {[
                 { href: "/", label: "Dashboard", icon: "🏠" },
