@@ -1,0 +1,24 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Super App",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", "super-app"],
+      "port": 3000
+    },
+    {
+      "name": "LinkedIn Post Generator",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["linkedin-post-generator/server.js"],
+      "port": 3099,
+      "autoPort": true
+    },
+    {
+      "name": "AI Stack Viewer",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "3100"],
+      "port": 3100
+    }
+  ]
+}
