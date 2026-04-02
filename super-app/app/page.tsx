@@ -3,10 +3,19 @@ import {
   TrainFront,
   Layers,
   Sparkles,
+  BrainCircuit,
 } from "lucide-react";
 import Link from "next/link";
 
 const APPS = [
+  {
+    href: "/prompt-workspace",
+    title: "Prompt Workspace",
+    description: "AI-powered prompt-centric workspace with specialized agents",
+    icon: BrainCircuit,
+    color: "#5B5BF0",
+    tag: "AI Workspace",
+  },
   {
     href: "/linkedin-generator",
     title: "LinkedIn Generator",

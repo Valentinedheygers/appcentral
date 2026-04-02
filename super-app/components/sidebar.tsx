@@ -7,6 +7,7 @@ import {
   TrainFront,
   Pen,
   Layers,
+  BrainCircuit,
   Menu,
   X,
 } from "lucide-react";
@@ -15,6 +16,7 @@ import { useState, useEffect, useRef } from "react";
 
 const NAV_ITEMS = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/prompt-workspace", label: "Prompt Workspace", icon: BrainCircuit },
   { href: "/linkedin-generator", label: "LinkedIn Generator", icon: Pen },
   { href: "/trains", label: "Trains de Nuit", icon: TrainFront },
   { href: "/tech-comparison", label: "Tech Comparison", icon: Layers },
@@ -24,6 +26,9 @@ export function Sidebar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  // Hide sidebar on prompt-workspace (it has its own chrome)
+  const isWorkspace = pathname === "/prompt-workspace";
 
   // Close on click outside
   useEffect(() => {
@@ -38,6 +43,8 @@ export function Sidebar() {
 
   // Close on route change
   useEffect(() => setOpen(false), [pathname]);
+
+  if (isWorkspace) return null;
 
   return (
     <div ref={menuRef} className="fixed top-4 left-4 z-[1000]">

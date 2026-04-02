@@ -61,3 +61,24 @@ body {
   height: 100%;
   z-index: 0;
 }
+
+/* Prompt Workspace theme overrides */
+.workspace-theme {
+  --primary: #5B5BF0;
+  --primary-foreground: #ffffff;
+  --ws-accent: #5B5BF0;
+  --ws-accent-light: #7C7CF8;
+  --ws-accent-bg: rgba(91, 91, 240, 0.06);
+  --ws-surface: #f8f9fb;
+  --ws-surface-elevated: #ffffff;
+  --ws-border-subtle: #e8e8ec;
+  --ws-panel-bg: #ffffff;
+}
+
+.dark .workspace-theme {
+  --ws-surface: #0c0c10;
+  --ws-surface-elevated: #16161d;
+  --ws-border-subtle: #26262e;
+  --ws-panel-bg: #16161d;
+  --ws-accent-bg: rgba(91, 91, 240, 0.08);
+}
