@@ -23,6 +23,13 @@ export async function POST(request: Request) {
     return new Response("Missing input or format", { status: 400 });
   }
 
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return new Response(
+      "ANTHROPIC_API_KEY is not set. Add it to your .env.local file or Vercel environment variables.",
+      { status: 500 }
+    );
+  }
+
   const client = new Anthropic();
 
   const stream = await client.messages.stream({

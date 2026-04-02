@@ -4,19 +4,31 @@ import { useState, useRef } from "react";
 import { Copy, Check, Loader2, Sparkles } from "lucide-react";
 
 const FORMATS = [
-  { id: "story", label: "Story", emoji: "📖" },
-  { id: "listicle", label: "Listicle", emoji: "📋" },
-  { id: "hot_take", label: "Hot Take", emoji: "🔥" },
-  { id: "lesson", label: "Lesson", emoji: "🎓" },
-  { id: "behind_the_scenes", label: "Behind the Scenes", emoji: "🎬" },
+  { id: "story", label: "Story", emoji: "\uD83D\uDCD6" },
+  { id: "listicle", label: "Listicle", emoji: "\uD83D\uDCCB" },
+  { id: "hot_take", label: "Hot Take", emoji: "\uD83D\uDD25" },
+  { id: "lesson", label: "Lesson", emoji: "\uD83C\uDF93" },
+  { id: "behind_the_scenes", label: "Behind the Scenes", emoji: "\uD83C\uDFAC" },
 ] as const;
 
 type Format = (typeof FORMATS)[number]["id"];
+
+const ENGAGEMENT_HACKS = [
+  { tip: "Start with a bold hook", detail: "First line = 90% of your reach. Make it surprising or controversial." },
+  { tip: "Use white space", detail: "Short paragraphs (1-2 lines). Walls of text kill engagement." },
+  { tip: "End with a question", detail: "Questions drive 2x more comments than statements." },
+  { tip: "Post at peak hours", detail: "Tue-Thu 8-10am local time gets the most impressions." },
+  { tip: "No links in the post", detail: "LinkedIn suppresses posts with external links. Put them in comments." },
+  { tip: "Use the 1-3-1 formula", detail: "1 hook line, 3 value paragraphs, 1 call to action." },
+  { tip: "Reply to every comment", detail: "Each reply counts as engagement and boosts your post in the algorithm." },
+  { tip: "Tag people sparingly", detail: "Tag 1-3 relevant people max. Over-tagging looks spammy." },
+];
 
 export default function LinkedInGenerator() {
   const [input, setInput] = useState("");
   const [format, setFormat] = useState<Format>("story");
   const [output, setOutput] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
@@ -25,6 +37,7 @@ export default function LinkedInGenerator() {
     if (!input.trim() || loading) return;
 
     setOutput("");
+    setError("");
     setLoading(true);
 
     abortRef.current = new AbortController();
@@ -38,8 +51,8 @@ export default function LinkedInGenerator() {
       });
 
       if (!res.ok) {
-        const err = await res.text();
-        setOutput(`Error: ${err}`);
+        const errText = await res.text();
+        setError(errText || `Server error (${res.status})`);
         setLoading(false);
         return;
       }
@@ -66,9 +79,13 @@ export default function LinkedInGenerator() {
           }
         }
       }
+
+      if (!accumulated) {
+        setError("No response received. Check that ANTHROPIC_API_KEY is set in your environment.");
+      }
     } catch (e: unknown) {
       if (e instanceof Error && e.name !== "AbortError") {
-        setOutput(`Error: ${e.message}`);
+        setError(e.message);
       }
     } finally {
       setLoading(false);
@@ -185,10 +202,17 @@ export default function LinkedInGenerator() {
         </div>
       </div>
 
+      {/* Error */}
+      {error && (
+        <div className="mt-6 rounded-lg border border-red-500/30 bg-red-500/10 p-4">
+          <p className="text-sm text-red-400 font-medium">Generation failed</p>
+          <p className="text-xs text-red-400/70 mt-1">{error}</p>
+        </div>
+      )}
+
       {/* Output area */}
       {output && (
         <div className="mt-8 rounded-xl border border-border bg-card overflow-hidden">
-          {/* Output header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/50">
             <div className="flex items-center gap-3">
               <span className="text-sm font-medium text-card-foreground">
@@ -215,8 +239,6 @@ export default function LinkedInGenerator() {
               )}
             </button>
           </div>
-
-          {/* Output body */}
           <div className="p-5">
             <pre className="whitespace-pre-wrap text-sm leading-relaxed text-card-foreground font-[family-name:var(--font-geist-sans)]">
               {output}
@@ -224,6 +246,28 @@ export default function LinkedInGenerator() {
           </div>
         </div>
       )}
+
+      {/* Engagement Hacks */}
+      <div className="mt-10">
+        <h2 className="text-lg font-bold tracking-tight mb-4">
+          Top LinkedIn Engagement Hacks
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {ENGAGEMENT_HACKS.map((hack) => (
+            <div
+              key={hack.tip}
+              className="rounded-lg border border-border bg-card p-4"
+            >
+              <div className="text-sm font-semibold text-primary mb-1">
+                {hack.tip}
+              </div>
+              <div className="text-xs text-muted-foreground leading-relaxed">
+                {hack.detail}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
