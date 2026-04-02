@@ -2,6 +2,7 @@
 
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 /* ── Cities ──────────────────────────────────────────────────── */
@@ -416,14 +417,84 @@ export default function TrainMap() {
 
   const q = search.toLowerCase().trim();
 
+  const [navOpen, setNavOpen] = useState(false);
+
   return (
     <div className="relative w-full h-[100vh]">
       {/* Map container */}
       <div ref={mapRef} className="absolute inset-0 z-0" />
 
+      {/* App Navigation Bar */}
+      <div
+        className="absolute top-[10px] left-[10px] right-[10px] z-[1100] flex items-center gap-2"
+        style={{ pointerEvents: "none" }}
+      >
+        <div style={{ pointerEvents: "auto" }} className="relative">
+          <button
+            onClick={() => setNavOpen(!navOpen)}
+            className="flex items-center gap-2 px-3 py-2 rounded-xl shadow-lg transition-all"
+            style={{
+              background: "rgba(6,10,24,0.95)",
+              backdropFilter: "blur(14px)",
+              border: "1px solid rgba(255,255,255,0.12)",
+              color: "#e87722",
+              fontSize: "12px",
+              fontWeight: 700,
+            }}
+          >
+            <span style={{ fontSize: "14px" }}>{navOpen ? "✕" : "☰"}</span>
+            <span>Charles Tools</span>
+          </button>
+
+          {navOpen && (
+            <div
+              className="absolute top-full left-0 mt-2 w-56 rounded-xl shadow-2xl overflow-hidden"
+              style={{
+                background: "rgba(6,10,24,0.97)",
+                backdropFilter: "blur(14px)",
+                border: "1px solid rgba(255,255,255,0.12)",
+              }}
+            >
+              <div className="px-4 py-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+                <div style={{ fontSize: "13px", fontWeight: 700, color: "#fff" }}>Charles Tools</div>
+                <div style={{ fontSize: "10px", color: "#64748b" }}>HCLSoftware</div>
+              </div>
+              {[
+                { href: "/", label: "Dashboard", icon: "🏠" },
+                { href: "/linkedin-generator", label: "LinkedIn Generator", icon: "✏️" },
+                { href: "/trains", label: "Trains de Nuit", icon: "🚂", active: true },
+                { href: "/tech-comparison", label: "Tech Comparison", icon: "📊" },
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setNavOpen(false)}
+                  className="flex items-center gap-3 px-4 py-2.5 transition-colors"
+                  style={{
+                    fontSize: "13px",
+                    fontWeight: 500,
+                    color: item.active ? "#e87722" : "#94a3b8",
+                    background: item.active ? "rgba(232,119,34,0.1)" : "transparent",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!item.active) (e.currentTarget.style.background = "rgba(255,255,255,0.05)");
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!item.active) (e.currentTarget.style.background = "transparent");
+                  }}
+                >
+                  <span>{item.icon}</span>
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
       {/* Sidebar */}
       <div
-        className="absolute top-[10px] left-[10px] z-[1000] w-[290px] max-h-[calc(100vh-20px)] overflow-y-auto rounded-[14px] p-[18px]"
+        className="absolute top-[60px] left-[10px] z-[900] w-[290px] max-h-[calc(100vh-70px)] overflow-y-auto rounded-[14px] p-[18px]"
         style={{
           background: "rgba(6,10,24,0.95)",
           backdropFilter: "blur(14px)",
