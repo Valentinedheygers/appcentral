@@ -4,10 +4,20 @@ import {
   Layers,
   Sparkles,
   BrainCircuit,
+  Users,
+  TrendingUp,
 } from "lucide-react";
 import Link from "next/link";
 
 const APPS = [
+  {
+    href: "/crm",
+    title: "CRM",
+    description: "Manage your entire network — prospects, partners, friends & family",
+    icon: Users,
+    color: "#10b981",
+    tag: "Network",
+  },
   {
     href: "/prompt-workspace",
     title: "Prompt Workspace",
@@ -39,6 +49,14 @@ const APPS = [
     icon: Layers,
     color: "#a855f7",
     tag: "Research",
+  },
+  {
+    href: "/trump-tracker",
+    title: "Trump Tracker",
+    description: "Track Trump family + Congress stock trades from SEC filings, news & crypto",
+    icon: TrendingUp,
+    color: "#dc2626",
+    tag: "Finance",
   },
 ];
 

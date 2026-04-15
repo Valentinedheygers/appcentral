@@ -8,18 +8,22 @@ import {
   Pen,
   Layers,
   BrainCircuit,
+  Users,
   Menu,
   X,
+  TrendingUp,
 } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
 import { useState, useEffect, useRef } from "react";
 
 const NAV_ITEMS = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/crm", label: "CRM", icon: Users },
   { href: "/prompt-workspace", label: "Prompt Workspace", icon: BrainCircuit },
   { href: "/linkedin-generator", label: "LinkedIn Generator", icon: Pen },
   { href: "/trains", label: "Trains de Nuit", icon: TrainFront },
   { href: "/tech-comparison", label: "Tech Comparison", icon: Layers },
+  { href: "/trump-tracker", label: "Trump Tracker", icon: TrendingUp },
 ];
 
 export function Sidebar() {
@@ -81,7 +85,7 @@ export function Sidebar() {
           {/* Nav items */}
           <nav className="p-2">
             {NAV_ITEMS.map((item) => {
-              const active = pathname === item.href;
+              const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
               return (
                 <Link
                   key={item.href}
