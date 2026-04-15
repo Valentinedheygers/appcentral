@@ -1,6 +1,8 @@
 import { supabaseAny as supabase } from '@/lib/supabase'
 import Anthropic from '@anthropic-ai/sdk'
 
+export const dynamic = 'force-dynamic'
+
 interface HotStock {
   ticker: string
   buyCount: number

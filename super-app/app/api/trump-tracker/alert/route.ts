@@ -2,6 +2,8 @@ import { supabaseAny } from '@/lib/supabase'
 import { composeAlertEmail } from '@/lib/trump-tracker/email-alert'
 import type { TrumpInvestment } from '@/lib/trump-tracker/types'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: Request) {
   const { investmentIds, recipientEmail } = await request.json() as {
     investmentIds?: string[]

@@ -1,5 +1,7 @@
 import { supabaseAny as supabase } from '@/lib/supabase'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST() {
   // Load portfolio
   const { data: portfolios } = await supabase

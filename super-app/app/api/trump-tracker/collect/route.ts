@@ -8,6 +8,8 @@ import { collectSocialMedia } from '@/lib/trump-tracker/collectors/social-media'
 import { collectCongressTrades } from '@/lib/trump-tracker/collectors/congress-trades'
 import type { RawInvestment, CollectorResult } from '@/lib/trump-tracker/types'
 
+export const dynamic = 'force-dynamic'
+
 const COLLECTORS: Record<string, (config: Record<string, unknown>) => Promise<RawInvestment[]>> = {
   sec_edgar: collectSECFilings,
   news_rss: collectNewsRSS,

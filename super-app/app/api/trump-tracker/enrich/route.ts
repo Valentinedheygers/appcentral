@@ -1,6 +1,8 @@
 import { supabaseAny } from '@/lib/supabase'
 import { enrichInvestment } from '@/lib/trump-tracker/enrichment'
 
+export const dynamic = 'force-dynamic'
+
 interface InvestmentRow {
   id: string
   source_title?: string
