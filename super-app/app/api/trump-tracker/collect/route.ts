@@ -1,4 +1,4 @@
-import { supabase as supabaseClient } from '@/lib/supabase'
+import { supabaseAny } from '@/lib/supabase'
 import { generateFingerprint } from '@/lib/trump-tracker/dedup'
 import { collectSECFilings } from '@/lib/trump-tracker/collectors/sec-edgar'
 import { collectNewsRSS } from '@/lib/trump-tracker/collectors/news-rss'
@@ -20,7 +20,7 @@ const COLLECTORS: Record<string, (config: Record<string, unknown>) => Promise<Ra
 }
 
 export async function POST(request: Request) {
-  const supabase = supabaseClient
+  const supabase = supabaseAny
 
   let body: { sources?: string[] } = {}
   try {
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
   const results: CollectorResult[] = []
 
   // Run collectors
-  for (const source of sources) {
+  for (const source of sources as Array<{ id: string; source_key: string; config: Record<string, unknown> }>) {
     const collector = COLLECTORS[source.source_key]
     if (!collector) {
       results.push({ source: source.source_key, investments: [], error: 'No collector found' })

@@ -19,6 +19,30 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "3100"],
       "port": 3100
+    },
+    {
+      "name": "Prompt Workspace",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "3101"],
+      "port": 3101
+    },
+    {
+      "name": "Quiz Podium",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "3102"],
+      "port": 3102
+    },
+    {
+      "name": "India Tech Map",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "3103"],
+      "port": 3103
+    },
+    {
+      "name": "Prompt Experience",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", "prompt-experience", "--", "-p", "3104"],
+      "port": 3104
     }
   ]
 }

@@ -1,10 +1,8 @@
-import { supabase as supabaseClient } from '@/lib/supabase'
+import { supabaseAny } from '@/lib/supabase'
 import { composeAlertEmail } from '@/lib/trump-tracker/email-alert'
 import type { TrumpInvestment } from '@/lib/trump-tracker/types'
 
 export async function POST(request: Request) {
-  const supabase = supabaseClient
-
   const { investmentIds, recipientEmail } = await request.json() as {
     investmentIds?: string[]
     recipientEmail?: string
@@ -13,12 +11,11 @@ export async function POST(request: Request) {
   const email = recipientEmail || process.env.ALERT_EMAIL || 'user@example.com'
 
   // Fetch investments to alert about
-  let query = supabase.from('trump_investments').select('*')
+  let query = supabaseAny.from('trump_investments').select('*')
 
   if (investmentIds?.length) {
     query = query.in('id', investmentIds)
   } else {
-    // Alert about all un-alerted investments
     query = query.eq('alert_sent', false).order('detected_at', { ascending: false }).limit(20)
   }
 
@@ -31,9 +28,8 @@ export async function POST(request: Request) {
   const typedInvestments = investments as unknown as TrumpInvestment[]
   const { subject, body } = composeAlertEmail(typedInvestments)
 
-  // Store the alert and mark investments as alerted
   const alertPromises = typedInvestments.map(inv =>
-    supabase.from('trump_tracker_alerts').insert({
+    supabaseAny.from('trump_tracker_alerts').insert({
       investment_id: inv.id,
       recipient_email: email,
       subject,
@@ -43,9 +39,8 @@ export async function POST(request: Request) {
 
   await Promise.all(alertPromises)
 
-  // Mark as alert_sent
   const ids = typedInvestments.map(inv => inv.id)
-  await supabase
+  await supabaseAny
     .from('trump_investments')
     .update({ alert_sent: true })
     .in('id', ids)
