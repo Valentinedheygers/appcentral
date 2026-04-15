@@ -9,6 +9,7 @@ import { collectCongressTrades } from '@/lib/trump-tracker/collectors/congress-t
 import type { RawInvestment, CollectorResult } from '@/lib/trump-tracker/types'
 
 export const dynamic = 'force-dynamic'
+export const maxDuration = 60
 
 const COLLECTORS: Record<string, (config: Record<string, unknown>) => Promise<RawInvestment[]>> = {
   sec_edgar: collectSECFilings,

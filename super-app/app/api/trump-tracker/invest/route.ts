@@ -2,6 +2,7 @@ import { supabaseAny as supabase } from '@/lib/supabase'
 import Anthropic from '@anthropic-ai/sdk'
 
 export const dynamic = 'force-dynamic'
+export const maxDuration = 60
 
 interface HotStock {
   ticker: string
