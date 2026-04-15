@@ -8,6 +8,7 @@ import { PortfolioChart } from '@/components/trump-tracker/portfolio-chart'
 import { SourceStatus } from '@/components/trump-tracker/source-status'
 import { HotStocks } from '@/components/trump-tracker/hot-stocks'
 import { PortfolioPanel } from '@/components/trump-tracker/portfolio-panel'
+import { TipsPanel } from '@/components/trump-tracker/tips-panel'
 import type { TrumpInvestment, TrackerSource, InvestmentAssetType } from '@/lib/trump-tracker/types'
 import {
   TrendingUp,
@@ -20,10 +21,11 @@ import {
   Flame,
   List,
   Wallet,
+  Lightbulb,
 } from 'lucide-react'
 
 type TrackMode = 'all' | 'trump' | 'congress'
-type ViewMode = 'feed' | 'hot-stocks' | 'portfolio'
+type ViewMode = 'feed' | 'hot-stocks' | 'portfolio' | 'tips'
 
 export default function TrumpTrackerPage() {
   const [investments, setInvestments] = useState<TrumpInvestment[]>([])
@@ -37,7 +39,7 @@ export default function TrumpTrackerPage() {
   const [assetType, setAssetType] = useState<InvestmentAssetType | 'all'>('all')
   const [familyMember, setFamilyMember] = useState('All Members')
   const [trackMode, setTrackMode] = useState<TrackMode>('all')
-  const [viewMode, setViewMode] = useState<ViewMode>('portfolio')
+  const [viewMode, setViewMode] = useState<ViewMode>('tips')
 
   const fetchData = useCallback(async () => {
     setLoading(true)
@@ -236,6 +238,7 @@ export default function TrumpTrackerPage() {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-1 p-1 rounded-lg bg-muted/50 w-fit">
               {([
+                { mode: 'tips' as ViewMode, label: 'Tips of the Week', icon: Lightbulb },
                 { mode: 'portfolio' as ViewMode, label: 'My Portfolio', icon: Wallet },
                 { mode: 'hot-stocks' as ViewMode, label: 'Hot Stocks', icon: Flame },
                 { mode: 'feed' as ViewMode, label: 'All Trades', icon: List },
@@ -277,6 +280,8 @@ export default function TrumpTrackerPage() {
                 Click &quot;Scan Now&quot; to fetch the latest data from all sources
               </p>
             </div>
+          ) : viewMode === 'tips' ? (
+            <TipsPanel />
           ) : viewMode === 'portfolio' ? (
             <PortfolioPanel />
           ) : viewMode === 'hot-stocks' ? (
