@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabaseAny as supabase } from '@/lib/supabase'
 import { InvestmentCard } from '@/components/trump-tracker/investment-card'
 import { FilterBar } from '@/components/trump-tracker/filter-bar'
 import { PortfolioChart } from '@/components/trump-tracker/portfolio-chart'

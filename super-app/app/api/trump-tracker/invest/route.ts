@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase'
+import { supabaseAny as supabase } from '@/lib/supabase'
 import Anthropic from '@anthropic-ai/sdk'
 
 interface HotStock {
@@ -76,7 +76,17 @@ export async function POST() {
     .slice(0, 15)
 
   // 5. Ask Claude to make investment decisions
-  const currentHoldings = (holdings || []).map(h => ({
+  interface HoldingRow {
+    id: string
+    ticker: string
+    asset_name: string
+    shares: number
+    avg_buy_price: number
+    current_price?: number
+    current_value?: number
+  }
+  const typedHoldings = (holdings || []) as HoldingRow[]
+  const currentHoldings = typedHoldings.map(h => ({
     ticker: h.ticker,
     shares: h.shares,
     avgPrice: h.avg_buy_price,
@@ -84,7 +94,7 @@ export async function POST() {
   }))
 
   const today = new Date().toISOString().slice(0, 10)
-  const totalValue = portfolio.current_cash + (holdings || []).reduce((sum: number, h: Record<string, number>) => sum + (h.current_value || h.shares * h.avg_buy_price), 0)
+  const totalValue = portfolio.current_cash + typedHoldings.reduce((sum, h) => sum + (h.current_value || h.shares * h.avg_buy_price), 0)
   const weekReturn = ((totalValue - portfolio.initial_capital) / portfolio.initial_capital) * 100
 
   const prompt = `You are an aggressive portfolio manager. Your mission: grow a $50,000 portfolio by 10% per week by following the same stocks that Trump family and US Congress members are trading.

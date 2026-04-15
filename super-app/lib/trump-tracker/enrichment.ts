@@ -21,7 +21,7 @@ export async function enrichInvestment(
   apiKey?: string
 ): Promise<{
   isInvestment: boolean
-  data?: Partial<RawInvestment> & { summary?: string }
+  data?: Partial<RawInvestment> & { ai_summary?: string }
 }> {
   const key = apiKey || process.env.ANTHROPIC_API_KEY
   if (!key) return { isInvestment: false }

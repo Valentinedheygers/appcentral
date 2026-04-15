@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabaseAny as supabase } from '@/lib/supabase'
 import {
   DollarSign,
   TrendingUp,

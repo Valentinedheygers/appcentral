@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase'
+import { supabaseAny as supabase } from '@/lib/supabase'
 
 export async function POST() {
   // Load portfolio

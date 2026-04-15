@@ -1,8 +1,17 @@
-import { supabase as supabaseClient } from '@/lib/supabase'
+import { supabaseAny } from '@/lib/supabase'
 import { enrichInvestment } from '@/lib/trump-tracker/enrichment'
 
+interface InvestmentRow {
+  id: string
+  source_title?: string
+  description?: string
+  asset_name: string
+  family_member: string
+  source_url?: string
+}
+
 export async function POST(request: Request) {
-  const supabase = supabaseClient
+  const supabase = supabaseAny
 
   const { investmentId, rawText, apiKey } = await request.json() as {
     investmentId: string
@@ -15,15 +24,17 @@ export async function POST(request: Request) {
   }
 
   // Fetch the investment
-  const { data: inv, error } = await supabase
+  const { data: invRaw, error } = await supabase
     .from('trump_investments')
     .select('*')
     .eq('id', investmentId)
     .single()
 
-  if (error || !inv) {
+  if (error || !invRaw) {
     return Response.json({ error: 'Investment not found' }, { status: 404 })
   }
+
+  const inv = invRaw as InvestmentRow
 
   // Use provided text or compose from existing data
   const textToAnalyze = rawText || [
